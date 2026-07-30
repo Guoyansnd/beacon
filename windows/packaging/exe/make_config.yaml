@@ -1,9 +1,9 @@
 app_id: 6L903538-42B1-4596-G479-BJ779F21A65D
-publisher: Hiddify
-publisher_url: https://github.com/hiddify/hiddify-app
-display_name: Hiddify
+publisher: Beacon
+publisher_url: https://github.com/Guoyansnd/beacon
+display_name: Beacon
 create_desktop_icon: true
-install_dir_name: "{autopf64}\\Hiddify"
+install_dir_name: "{autopf64}\\Beacon"
 setup_icon_file: windows\runner\resources\app_icon.ico
 locales:
   - ar

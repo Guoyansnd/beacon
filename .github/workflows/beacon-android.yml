@@ -35,7 +35,7 @@ jobs:
         run: make android-apk-prepare
 
       - name: Build release APK
-        run: flutter build apk --release
+        run: flutter build apk --release --split-per-abi --target lib/main_prod.dart --dart-define=sentry_dsn=
 
       - name: List outputs
         run: ls -lR build/app/outputs/flutter-apk/ || true

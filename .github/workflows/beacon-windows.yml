@@ -31,7 +31,7 @@ jobs:
         shell: bash
 
       - name: Build Windows release
-        run: flutter build windows --release --dart-define=portable=true
+        run: flutter build windows --release --target lib/main_prod.dart --dart-define=portable=true --dart-define=sentry_dsn=
         shell: bash
 
       - name: Package portable zip
