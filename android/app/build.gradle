@@ -108,6 +108,11 @@ android {
             } else {
                 signingConfig signingConfigs.debug
             }
+            // 关闭 R8 代码裁剪/混淆：R8 会裁掉持有 gomobile PlatformInterface 实现的字段，
+            // 导致该 Java 对象被 GC，Go 核心回调 GetInterfaces 时报
+            // "go/Seq: Unknown reference" 并 SIGABRT（表现为点连接后几秒崩溃）。
+            minifyEnabled false
+            shrinkResources false
             ndk {
                 //noinspection ChromeOsAbiSupport
                 abiFilters "x86_64", "armeabi-v7a", "arm64-v8a"
