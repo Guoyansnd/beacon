@@ -90,8 +90,12 @@ COMPONENT Runtime RENAME hiddify-core.dll)
 install(FILES "../hiddify-core/bin/libcronet.dll" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
 COMPONENT Runtime RENAME libcronet.dll)
 
-install(FILES "../hiddify-core/bin/HiddifyCli.exe" DESTINATION "${CMAKE_INSTALL_PREFIX}"
-COMPONENT Runtime RENAME HiddifyCli.exe)
+# 灯塔: 不打包 HiddifyCli.exe。
+# 理由: (1) App 只用 hiddify-core.dll, 代码中无任何地方引用此 CLI;
+#      (2) 它是上游预编译产物, 带 Hiddify 品牌与图标, 无法随本项目品牌化;
+#      (3) Windows Defender 常将其误报为 PUA 并删除, 给用户造成困惑。
+# install(FILES "../hiddify-core/bin/HiddifyCli.exe" DESTINATION "${CMAKE_INSTALL_PREFIX}"
+# COMPONENT Runtime RENAME HiddifyCli.exe)
 
 
 if(PLUGIN_BUNDLED_LIBRARIES)
