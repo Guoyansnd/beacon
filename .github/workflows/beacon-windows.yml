@@ -1,0 +1,68 @@
+name: Build Beacon Windows
+
+on:
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.38.5'
+  CHANNEL: 'prod'
+  IS_GITHUB_ACTIONS: 1
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2.21.0
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Install build deps
+        run: make windows-install-deps
+        shell: bash
+
+      - name: Prepare (pub get, codegen, download core libs)
+        run: make windows-prepare
+        shell: bash
+
+      - name: Build Windows release
+        run: flutter build windows --release --dart-define=portable=true
+        shell: bash
+
+      - name: Package portable zip
+        shell: pwsh
+        run: |
+          $src = "build/windows/x64/runner/Release"
+          if (-not (Test-Path $src)) { $src = "build/windows/runner/Release" }
+          Write-Host "Packing from $src"
+          Get-ChildItem $src | Select-Object Name, Length
+          New-Item -ItemType Directory -Force out | Out-Null
+          Compress-Archive -Path "$src/*" -DestinationPath "out/Beacon-Windows-x64-Portable.zip" -Force
+          Get-ChildItem out
+
+      - name: Try building installer (optional)
+        continue-on-error: true
+        shell: bash
+        run: |
+          make windows-exe-release || echo "installer step failed, portable zip is still available"
+          ls -R dist/ || true
+
+      - name: Collect installer if produced
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p out
+          find dist -name '*.exe' -exec cp {} out/ \; || true
+          ls -l out/ || true
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: beacon-windows
+          path: out/*
+          if-no-files-found: error
