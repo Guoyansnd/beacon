@@ -19,6 +19,16 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute version
+        id: ver
+        shell: bash
+        run: |
+          BUILD=$(git rev-list --count HEAD)
+          echo "name=4.1.$BUILD" >> $GITHUB_OUTPUT
+          echo "code=$((40102 + BUILD))" >> $GITHUB_OUTPUT
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2.21.0
@@ -36,7 +46,7 @@ jobs:
         shell: bash
 
       - name: Build Windows release
-        run: flutter build windows --release --target lib/main_prod.dart --dart-define=portable=true --dart-define=sentry_dsn=
+        run: flutter build windows --release --target lib/main_prod.dart --dart-define=portable=true --dart-define=sentry_dsn= --build-name=${{ steps.ver.outputs.name }} --build-number=${{ steps.ver.outputs.code }}
         shell: bash
 
       - name: Package portable zip
@@ -76,8 +86,8 @@ jobs:
       - name: Publish to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: windows-b${{ github.run_number }}
-          name: 灯塔 Windows · build ${{ github.run_number }}
+          tag_name: v${{ steps.ver.outputs.name }}
+          name: 灯塔 Beacon v${{ steps.ver.outputs.name }}
           body: |
             灯塔 (Beacon) Windows 版自动构建
             - 便携版：解压后运行 Beacon.exe，免安装

@@ -19,6 +19,18 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute version
+        id: ver
+        shell: bash
+        run: |
+          BUILD=$(git rev-list --count HEAD)
+          echo "build=$BUILD" >> $GITHUB_OUTPUT
+          echo "name=4.1.$BUILD" >> $GITHUB_OUTPUT
+          echo "code=$((40102 + BUILD))" >> $GITHUB_OUTPUT
+          echo "版本: 4.1.$BUILD (versionCode $((40102 + BUILD)))"
 
       - name: Setup Java 17
         uses: actions/setup-java@v4
@@ -40,7 +52,7 @@ jobs:
         run: make android-apk-prepare
 
       - name: Build release APK
-        run: flutter build apk --release --split-per-abi --target lib/main_prod.dart --dart-define=sentry_dsn=
+        run: flutter build apk --release --split-per-abi --target lib/main_prod.dart --dart-define=sentry_dsn= --build-name=${{ steps.ver.outputs.name }} --build-number=${{ steps.ver.outputs.code }}
 
       - name: List outputs
         run: ls -lR build/app/outputs/flutter-apk/ || true
@@ -56,8 +68,8 @@ jobs:
       - name: Publish to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: android-b${{ github.run_number }}
-          name: 灯塔 Android · build ${{ github.run_number }}
+          tag_name: v${{ steps.ver.outputs.name }}
+          name: 灯塔 Beacon v${{ steps.ver.outputs.name }}
           body: |
             灯塔 (Beacon) 安卓版自动构建
             - 手机装 `app-arm64-v8a-release.apk`（绝大多数机型）
