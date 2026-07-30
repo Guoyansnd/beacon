@@ -94,7 +94,7 @@
   },
   "intro": {
     "banner": "安全、稳定、简单的网络工具",
-    "termsAndPolicyCaution(rich)": "仅供个人学习与自用",
+    "termsAndPolicyCaution(rich)": "仅供个人学习与自用 · ${tap(许可说明)}",
     "info(rich)": "灯塔 · 基于开源项目 Hiddify - ${tap_source(源码)} (${tap_license(许可证)})"
   },
   "pages": {

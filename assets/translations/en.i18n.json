@@ -94,7 +94,7 @@
   },
   "intro": {
     "banner": "All you need for an unrestricted internet",
-    "termsAndPolicyCaution(rich)": "For personal use only",
+    "termsAndPolicyCaution(rich)": "For personal use only · ${tap(License)}",
     "info(rich)": "Beacon · based on Hiddify - ${tap_source(Source)} (${tap_license(License)})"
   },
   "pages": {
