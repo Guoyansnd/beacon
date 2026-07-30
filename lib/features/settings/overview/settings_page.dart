@@ -147,33 +147,8 @@ class SettingsPage extends HookConsumerWidget {
             icon: Icons.layers_rounded,
             namedLocation: context.namedLocation('general'),
           ),
-          if (ref.watch(hasAnyProfileProvider).value ?? false)
-            SettingsSection(
-              title: t.pages.settings.chain.title,
-              icon: Icons.webhook_rounded,
-              subtitle: Text(t.pages.settings.chain.subtitle),
-              namedLocation: context.namedLocation('chainOptions'),
-            ),
-          SettingsSection(
-            title: t.pages.settings.routing.title,
-            icon: Icons.route_rounded,
-            namedLocation: context.namedLocation('routingOptions'),
-          ),
-          SettingsSection(
-            title: t.pages.settings.dns.title,
-            icon: Icons.dns_rounded,
-            namedLocation: context.namedLocation('dnsOptions'),
-          ),
-          SettingsSection(
-            title: t.pages.settings.inbound.title,
-            icon: Icons.input_rounded,
-            namedLocation: context.namedLocation('inboundOptions'),
-          ),
-          SettingsSection(
-            title: t.pages.settings.tlsTricks.title,
-            icon: Icons.content_cut_rounded,
-            namedLocation: context.namedLocation('tlsTricks'),
-          ),
+          // 灯塔精简：隐藏 链式代理 / 路由 / DNS / 入站 / TLS技巧 等高级设置，
+          // 普通用户无需接触；路由仍存在，需要时可直接改本文件恢复入口。
           if (PlatformUtils.isIOS)
             Material(
               child: ListTile(

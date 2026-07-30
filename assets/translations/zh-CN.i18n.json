@@ -1,6 +1,6 @@
 {
   "common": {
-    "appTitle": "Hiddify",
+    "appTitle": "灯塔",
     "start": "开始",
     "version": "版本",
     "ok": "确定",
@@ -93,9 +93,9 @@
     }
   },
   "intro": {
-    "banner": "畅享无限制网络的所需一切",
-    "termsAndPolicyCaution(rich)": "继续即表示您同意 ${tap(@:pages.about.termsAndConditions)}",
-    "info(rich)": "由 Hiddify 用 ❤️ 制作 - ${tap_source(开源)} (${tap_license(许可证)})"
+    "banner": "安全、稳定、简单的网络工具",
+    "termsAndPolicyCaution(rich)": "仅供个人学习与自用",
+    "info(rich)": "灯塔 · 基于开源项目 Hiddify - ${tap_source(源码)} (${tap_license(许可证)})"
   },
   "pages": {
     "home": {

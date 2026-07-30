@@ -114,26 +114,14 @@ class AboutPage extends HookConsumerWidget {
                   await UriUtils.tryLaunch(Uri.parse(Constants.githubUrl));
                 },
               ),
-              ListTile(
-                title: Text(t.pages.about.telegramChannel),
-                trailing: const Icon(FluentIcons.open_24_regular),
-                onTap: () async {
-                  await UriUtils.tryLaunch(Uri.parse(Constants.telegramChannelUrl));
-                },
-              ),
-              ListTile(
-                title: Text(t.pages.about.termsAndConditions),
-                trailing: const Icon(FluentIcons.open_24_regular),
-                onTap: () async {
-                  await UriUtils.tryLaunch(Uri.parse(Constants.termsAndConditionsUrl));
-                },
-              ),
-              ListTile(
-                title: Text(t.pages.about.privacyPolicy),
-                trailing: const Icon(FluentIcons.open_24_regular),
-                onTap: () async {
-                  await UriUtils.tryLaunch(Uri.parse(Constants.privacyPolicyUrl));
-                },
+              // 灯塔精简：移除 飞机频道 / 条款与条件 / 隐私政策（均为上游 Hiddify 的链接）。
+              // 依 GPLv3 附加条款保留源代码链接与署名。
+              const ListTile(
+                dense: true,
+                title: Text(
+                  "基于开源项目 Hiddify 构建 (GPL-3.0)",
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
             ]),
           ),
