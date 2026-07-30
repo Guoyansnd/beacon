@@ -1,33 +1,38 @@
+<!--
+  灯塔 Beacon 自适应图标前景。
+  几何已修正：最外弧顶点在 y=32（旧版为 y=-2，会被画布上边缘裁掉导致图案偏上）。
+  内容在 160x160 坐标系内纵向 30~132、横向 26~134，居中；
+  按 108/160 缩放并再乘 0.9 留出自适应图标安全边距。
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
   <group
-      android:scaleX="0.55"
-      android:scaleY="0.55"
-      android:translateX="10"
-      android:translateY="10.8">
+      android:scaleX="0.6075"
+      android:scaleY="0.6075"
+      android:translateX="5.4"
+      android:translateY="5.4">
     <path
-        android:pathData="M52,82 a28,28 0 0 1 56,0"
+        android:pathData="M60,100 a20,20 0 0 1 40,0"
         android:strokeColor="#FFC857"
-        android:strokeWidth="5"
-        android:strokeAlpha="0.95"
+        android:strokeWidth="9"
         android:strokeLineCap="round" />
     <path
-        android:pathData="M38,68 a42,42 0 0 1 84,0"
+        android:pathData="M44,92 a36,36 0 0 1 72,0"
         android:strokeColor="#FFC857"
-        android:strokeWidth="5"
-        android:strokeAlpha="0.45"
+        android:strokeWidth="9"
+        android:strokeAlpha="0.55"
         android:strokeLineCap="round" />
     <path
-        android:pathData="M24,54 a56,56 0 0 1 112,0"
+        android:pathData="M26,86 a54,54 0 0 1 108,0"
         android:strokeColor="#FFC857"
-        android:strokeWidth="5"
-        android:strokeAlpha="0.18"
+        android:strokeWidth="9"
+        android:strokeAlpha="0.25"
         android:strokeLineCap="round" />
     <path
-        android:pathData="M80,90.5 a7.5,7.5 0 1 0 0,15 a7.5,7.5 0 1 0 0,-15z"
+        android:pathData="M80,112 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0z"
         android:fillColor="#FFC857" />
   </group>
 </vector>
