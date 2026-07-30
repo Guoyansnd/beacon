@@ -51,15 +51,25 @@ class ProxiesOverviewPage extends HookConsumerWidget with PresLogger {
                 builder: (context, constraints) {
                   final width = constraints.maxWidth;
                   final crossAxisCount = PlatformUtils.isMobile && width < 600 ? 1 : max(1, (width / 268).floor());
+                  // 灯塔精简：隐藏核心自动生成的 lowest / balance 等聚合组，
+                  // 它们会轮询到劣质节点，对普通用户有迷惑性，只保留真实节点。
+                  final visibleItems = group.items.where((p) {
+                    final type = p.type.toLowerCase();
+                    final tag = p.tag.toLowerCase();
+                    if (type.contains('balancer') || type.contains('urltest') || type.contains('selector')) {
+                      return false;
+                    }
+                    return tag != 'lowest' && tag != 'balance' && tag != 'auto' && tag != 'select';
+                  }).toList();
                   return GridView.builder(
                     padding: const EdgeInsets.only(bottom: 86),
-                    itemCount: group.items.length,
+                    itemCount: visibleItems.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount,
                       mainAxisExtent: 72,
                     ),
                     itemBuilder: (context, index) {
-                      final proxy = group.items[index];
+                      final proxy = visibleItems[index];
                       return ProxyTile(
                         proxy,
                         selected: group.selected == proxy.tag,

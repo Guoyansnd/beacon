@@ -10,6 +10,9 @@ env:
   CHANNEL: 'prod'
   IS_GITHUB_ACTIONS: 1
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -68,3 +71,17 @@ jobs:
           name: beacon-windows
           path: out/*
           if-no-files-found: error
+
+      # 发布成 Release：公开直链，免登录下载
+      - name: Publish to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: windows-b${{ github.run_number }}
+          name: 灯塔 Windows · build ${{ github.run_number }}
+          body: |
+            灯塔 (Beacon) Windows 版自动构建
+            - 便携版：解压后运行 Beacon.exe，免安装
+            - 若有 setup.exe 则为安装版
+          files: out/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

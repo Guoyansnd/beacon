@@ -10,6 +10,9 @@ env:
   CHANNEL: 'prod'
   IS_GITHUB_ACTIONS: 1
 
+permissions:
+  contents: write
+
 jobs:
   build-apk:
     runs-on: ubuntu-latest
@@ -48,3 +51,18 @@ jobs:
           name: beacon-android-apk
           path: build/app/outputs/flutter-apk/*.apk
           if-no-files-found: error
+
+      # 发布成 Release：产生公开直链，免登录即可下载（迅雷/手机浏览器/服务器都能抓）
+      - name: Publish to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-b${{ github.run_number }}
+          name: 灯塔 Android · build ${{ github.run_number }}
+          body: |
+            灯塔 (Beacon) 安卓版自动构建
+            - 手机装 `app-arm64-v8a-release.apk`（绝大多数机型）
+            - 不确定机型就装 `app-release.apk`（通用版）
+          files: build/app/outputs/flutter-apk/*.apk
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
