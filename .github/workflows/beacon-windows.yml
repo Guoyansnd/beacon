@@ -72,7 +72,11 @@ jobs:
         shell: bash
         run: |
           mkdir -p out
-          find dist -name '*.exe' -exec cp {} out/ \; || true
+          # 安装包文件名统一改成 Beacon-Setup.exe（原名来自 pubspec 包名 hiddify，
+          # 包名不能改——全项目几百处 package:hiddify/ 引用）
+          find dist -name '*.exe' | head -n 1 | while read -r f; do
+            cp "$f" "out/Beacon-Setup.exe"
+          done
           ls -l out/ || true
 
       - name: Upload Windows build
